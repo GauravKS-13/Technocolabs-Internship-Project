@@ -63,7 +63,7 @@ for data_set in [x_train_normed, x_test_normed]:
 
 # building logistic regression model
  
-logit_reg_cls = LogisticRegression(penalty='l2',solver = 'liblinear',dual=False,random_state = 0, C = 5)
+logit_reg_cls = LogisticRegression(penalty='l2',solver = 'liblinear',dual=False,random_state = 0, C = 2)
 logit_reg_cls.fit(x_train_normed,y_train)
 
 # AUC score for Logistic Regression model
