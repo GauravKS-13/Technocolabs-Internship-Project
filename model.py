@@ -6,7 +6,7 @@ import pickle
 from tpot import TPOTClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import roc_auc_score,accuracy_score
+from sklearn.metrics import roc_auc_score
 
 # Loading the data
 data = pd.read_csv("transfusion.data")
@@ -24,10 +24,10 @@ x = data.drop(columns = ["target"],axis = 1)
 y = data["target"]
 
 # Train test split
-x_train,x_test,y_train,y_test = train_test_split(x,y,test_size = 0.20,random_state = 0,stratify = y)
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size = 0.25,random_state = 0,stratify = y)
 
 #AUTOML TPOT to find the best model 
-tpot_cls = TPOTClassifier(generations = 10,
+tpot_cls = TPOTClassifier(generations = 5,
                            population_size = 100,
                            scoring = "roc_auc",
                            cv = 5,
@@ -50,7 +50,7 @@ tpot_roc_auc_score = roc_auc_score(y_test,y_pred_prob[:,1] )
 print(f'\nAUC score for TPOT Best Model: {tpot_roc_auc_score:.4f}')
 
 #Exporting the model
-#tpot_cls.export("tpot_best_model.py")
+tpot_cls.export("tpot_best_model.py")
 
 # X_train's variance, rounding the output to 3 decimal places
 print('\n',x_train.var().round(3))
@@ -63,13 +63,13 @@ x_train_normed,x_test_normed = x_train.copy(),x_test.copy()
 for data_set in [x_train_normed, x_test_normed]:
     # Add log normalized column
     data_set['Monetary (c.c. blood)'] = np.log(data_set["Monetary (c.c. blood)"])
-   
+ 
 
-#print('\n',x_train_normed.var().round(3),'\n')
+print('\n',x_train_normed.var().round(3),'\n')
 
 # building logistic regression model
  
-logit_reg_cls = LogisticRegression(random_state = 42, C = 25)
+logit_reg_cls = LogisticRegression(C=3, penalty='l2', random_state= 42, solver='liblinear')
 logit_reg_cls.fit(x_train_normed,y_train)
 
 # AUC score for Logistic Regression model
