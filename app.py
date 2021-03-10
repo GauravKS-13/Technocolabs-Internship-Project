@@ -19,8 +19,12 @@ def predict():
     prediction = model.predict(final_features)
     
     output = prediction
-       
-    return render_template('index.html',prediction_text = "Output - He/She Will Donate Blood : {}".format(output))
+    
+    if output == 1:
+        return render_template('index.html',prediction_text = "Output - He/She Will Donate Blood" )
+    else:
+        return render_template('index.html',prediction_text = "Output - He/She Will Not Donate Blood" )
+                               
 
   
 #app.route('/predict_api',methods=['POST'])
