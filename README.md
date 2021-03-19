@@ -1,3 +1,3 @@
 # Technocolabs-Internship-Project
 
-[Deployment Link](https://gaurav-sharma-blood-donation.herokuapp.com/)
+[Click On the text to see deployment](https://gaurav-sharma-blood-donation.herokuapp.com/)
